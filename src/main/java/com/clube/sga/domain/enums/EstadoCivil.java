@@ -26,7 +26,6 @@ public enum EstadoCivil {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
 	public static EstadoCivil toEnum(Integer cod) {
 		if (cod == null) {
 			return null;
@@ -37,5 +36,6 @@ public enum EstadoCivil {
 			}
 		}
 		throw new IllegalArgumentException("Id inválido: "+ cod);
-	 }
+	}
+
 }

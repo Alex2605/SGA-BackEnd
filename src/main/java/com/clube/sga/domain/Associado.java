@@ -25,12 +25,23 @@ public class Associado extends Pessoa{
 	
 	public Associado() {
 	}
-	
+	public Associado(String nome, String CPF, Date dataNascimento) {
+	    super(nome, CPF, dataNascimento);
+}
 		public Associado(Integer id, String nome, String CPF, Date dataNascimento, EstadoCivil estadoCivil, 
 					 Date dataInscricao, TipoAssociado tipoAssociado) {
 		super(id, nome, CPF, dataNascimento, estadoCivil, dataInscricao);
 		this.tipoAssociado = tipoAssociado.getCod();
 	}
+		public Associado(Integer id, String nome, String CPF, Date dataNascimento) {
+	    super(id, nome, CPF, dataNascimento);
+}
+
+	public Associado(String nome, String CPF, Date dataNascimento, EstadoCivil estadoCivil, 
+			 Date dataInscricao, TipoAssociado tipoAssociado) {
+		super(nome, CPF, dataNascimento, estadoCivil, dataInscricao);
+		this.tipoAssociado = tipoAssociado.getCod();
+		}
 
 	public TipoAssociado getTipoAssociado() {
 		return TipoAssociado.toEnum(tipoAssociado);

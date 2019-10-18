@@ -3,10 +3,14 @@ package com.clube.sga;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.clube.sga.domain.Associado;
 import com.clube.sga.domain.Cidade;
@@ -39,6 +43,15 @@ public class SgaApplication implements CommandLineRunner{
 	@Autowired
 	private TelefoneRepository telefoneRepository;
 
+	/*
+colocar na application.property
+spring.jpa.hibernate.ddl-auto=create
+spring.datasource.url=jdbc:mysql://localhost:3306/sga
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+	 */
+
 	public static void main(String[] args) {
 		SpringApplication.run(SgaApplication.class, args);
 		
@@ -49,14 +62,16 @@ public class SgaApplication implements CommandLineRunner{
 		// TODO Auto-generated method stub
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 		System.out.println("Instancia o associado");
-		Associado assoc1 = new Associado(null, "Alexander Santos", "03755792737", sdf.parse("26/05/1975"), EstadoCivil.CASADO, sdf.parse("01/01/2001"), TipoAssociado.EFETIVO);
-
-		Dependente dep1 = new Dependente(null, "Marjorie Fabiana", "05501365766", sdf.parse("09/04/1980"), EstadoCivil.CASADO, sdf.parse("01/01/2001"), TipoDependente.ESPOSO);
-		Dependente dep2 = new Dependente(null, "Tales Cunha", "83263784706", sdf.parse("19/11/2002"), EstadoCivil.SOLTEIRO, sdf.parse("10/02/2002"), TipoDependente.FILHO);
-		Dependente dep3 = new Dependente(null, "Alonso Cunha", "72421894700", sdf.parse("13/06/2006"), EstadoCivil.SOLTEIRO, sdf.parse("20/10/2006"), TipoDependente.FILHO);
-		Dependente dep4 = new Dependente(null, "Artur Cunha", "56065907782", sdf.parse("16/08/2007"), EstadoCivil.SOLTEIRO, sdf.parse("30/11/2007"), TipoDependente.FILHO);
 		
-		Visitante visi1 = new Visitante(null, "Alexandre Pereira da Silva", "56065907782", sdf.parse("16/04/1975"), EstadoCivil.DIVORCIADO, sdf.parse("26/05/2012"));
+		Associado assoc3 = new Associado(null, "Tio Patinhas", "88185426058", sdf.parse("01/01/1940"), EstadoCivil.SOLTEIRO, sdf.parse("01/01/2001"), TipoAssociado.EFETIVO);
+		pessoaRepository.saveAll(Arrays.asList(assoc3));
+		
+		Associado assoc1 = new Associado(null, "Pato Donald", "56065907782", sdf.parse("25/02/1965"), EstadoCivil.CASADO, sdf.parse("01/01/2001"), TipoAssociado.EFETIVO);
+		Dependente dep1 = new Dependente(null, "Margarida", "85538059057", sdf.parse("09/04/1966"), EstadoCivil.CASADO, sdf.parse("01/01/2001"), TipoDependente.ESPOSO);
+		Dependente dep2 = new Dependente(null, "Huguinho", "83263784706", sdf.parse("19/11/2002"), EstadoCivil.SOLTEIRO, sdf.parse("10/02/2002"), TipoDependente.FILHO);
+		Dependente dep3 = new Dependente(null, "Zezinho", "72421894700", sdf.parse("13/06/2006"), EstadoCivil.SOLTEIRO, sdf.parse("20/10/2006"), TipoDependente.FILHO);
+		Dependente dep4 = new Dependente(null, "Luizinho", "56065907782", sdf.parse("16/08/2007"), EstadoCivil.SOLTEIRO, sdf.parse("30/11/2007"), TipoDependente.FILHO);
+		Visitante visi1 = new Visitante(null, "Gastão", "56065907782", sdf.parse("16/04/1975"), EstadoCivil.DIVORCIADO, sdf.parse("26/05/2012"));
 		
 		visi1.setAssociado(assoc1);
 		dep1.setAssociado(assoc1);
@@ -106,8 +121,56 @@ public class SgaApplication implements CommandLineRunner{
 		cidadeRepository.saveAll(Arrays.asList(c1));
 		enderecoRepository.saveAll(Arrays.asList(e1));
 		telefoneRepository.saveAll(Arrays.asList(tel1, tel2, tel3, tel4, tel5));
+		Associado assoc2 = new Associado(null, "Sr. Incrível", "72421894700", sdf.parse("01/01/1955"), EstadoCivil.CASADO, sdf.parse("01/01/2001"), TipoAssociado.EFETIVO);
+		Dependente dep5 = new Dependente(null, "Mulher Elástico", "85538059057", sdf.parse("09/04/1950"), EstadoCivil.CASADO, sdf.parse("01/01/2001"), TipoDependente.ESPOSO);
+		Dependente dep6 = new Dependente(null, "Violeta", "83263784706", sdf.parse("19/11/2002"), EstadoCivil.SOLTEIRO, sdf.parse("10/02/2002"), TipoDependente.FILHO);
+		Dependente dep7 = new Dependente(null, "Flexa", "72421894700", sdf.parse("13/06/2006"), EstadoCivil.SOLTEIRO, sdf.parse("20/10/2006"), TipoDependente.FILHO);
+		Dependente dep8 = new Dependente(null, "Zezé", "56065907782", sdf.parse("16/08/2007"), EstadoCivil.SOLTEIRO, sdf.parse("30/11/2007"), TipoDependente.FILHO);
+		Visitante visi2 = new Visitante(null, "Gelado", "56065907782", sdf.parse("16/04/1975"), EstadoCivil.DIVORCIADO, sdf.parse("26/05/2012"));
+		
+		visi2.setAssociado(assoc2);
+		dep5.setAssociado(assoc2);
+		dep6.setAssociado(assoc2);
+		dep7.setAssociado(assoc2);
+		dep8.setAssociado(assoc2);
+		
+		assoc2.getDependentes().addAll(Arrays.asList(dep5,dep6,dep7,dep8));
+		assoc2.getVisitantes().addAll(Arrays.asList(visi2));
+		
+		Telefone tel6 = new Telefone(null, "22988079945", TipoTelefone.CELULAR);
+		Telefone tel7 = new Telefone(null, "2138701539", TipoTelefone.COMERCIAL);
+		Telefone tel8 = new Telefone(null, "213466234", TipoTelefone.RECADO);
+		Telefone tel9 = new Telefone(null, "22988261604", TipoTelefone.CELULAR);
+		Telefone tel10 = new Telefone(null, "2226521099", TipoTelefone.RESIDENCIAL);
+		
+		Estado est2 = new Estado(null, "São Paulo");
+		Cidade c2 = new Cidade(null, "Piracicaba",est2);
+		est2.getCidades().addAll(Arrays.asList(c2));
+		
+		Endereco e2 = new Endereco(null, "Rua das Flores", "500", "Casa", "Jaconé", "28999044", assoc2, c2);
+		assoc2.getEnderecos().addAll(Arrays.asList(e2));
+		dep5.getEnderecos().addAll(Arrays.asList(e2));
+		dep6.getEnderecos().addAll(Arrays.asList(e2));
+		dep7.getEnderecos().addAll(Arrays.asList(e2));
+		dep8.getEnderecos().addAll(Arrays.asList(e2));
+		
+		assoc2.getTelefones().addAll(Arrays.asList(tel6, tel7, tel8));
+		dep5.getTelefones().addAll(Arrays.asList(tel9, tel10));
+		assoc2.getEmails().addAll(Arrays.asList("alexanderprof@yahoo.com.br", "alequinho@gmail.com", "alexsantos.26.05@gmail.com"));
+		dep5.getEmails().addAll(Arrays.asList("marjoriefabiana@yahoo.com.br"));
+		
 
-
+		pessoaRepository.saveAll(Arrays.asList(assoc2));
+		pessoaRepository.saveAll(Arrays.asList(dep5));
+		pessoaRepository.saveAll(Arrays.asList(dep6));
+		pessoaRepository.saveAll(Arrays.asList(dep7));
+		pessoaRepository.saveAll(Arrays.asList(dep8));
+		pessoaRepository.saveAll(Arrays.asList(visi2));
+		estadoRepository.saveAll(Arrays.asList(est2));
+		cidadeRepository.saveAll(Arrays.asList(c2));
+		enderecoRepository.saveAll(Arrays.asList(e2));
+		telefoneRepository.saveAll(Arrays.asList(tel6, tel7, tel8, tel9, tel10));		
 	}
+
 
 }

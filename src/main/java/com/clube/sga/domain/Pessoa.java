@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Pessoa implements Serializable {
+public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -59,6 +59,31 @@ public abstract class Pessoa implements Serializable {
 		this.estadoCivil = estadoCivil.getCod();
 		this.dataInscricao = dataInscricao;
 	}
+	
+	public Pessoa(String nome, String CPF, Date dataNascimento, EstadoCivil estadoCivil, Date dataInscricao) {
+		super();
+		this.nome = nome;
+		this.CPF = CPF;
+		this.dataNascimento = dataNascimento;
+		this.estadoCivil = estadoCivil.getCod();
+		this.dataInscricao = dataInscricao;
+	}	
+
+	public Pessoa(Integer id, String nome, String CPF, Date dataNascimento) {
+		this.id = id;
+		this.nome = nome;
+		this.CPF = CPF;
+		this.dataNascimento = dataNascimento;
+	}
+
+	
+
+	public Pessoa(String nome, String CPF, Date dataNascimento) {
+		this.nome = nome;
+		this.CPF = CPF;
+		this.dataNascimento = dataNascimento;
+	}
+
 
 	public Integer getId() {
 		return id;

@@ -2,7 +2,8 @@ package com.clube.sga.services.exceptions;
 
 import java.io.Serializable;
 
-public class ObjectNotFoundException extends RuntimeException implements Serializable{
+public class ObjectNotFoundException extends RuntimeException implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	
 	public ObjectNotFoundException(String msg) {
@@ -12,5 +13,4 @@ public class ObjectNotFoundException extends RuntimeException implements Seriali
 	public ObjectNotFoundException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
-
 }
