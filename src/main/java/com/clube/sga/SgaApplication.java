@@ -3,14 +3,10 @@ package com.clube.sga;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.clube.sga.domain.Associado;
 import com.clube.sga.domain.Cidade;
@@ -42,15 +38,6 @@ public class SgaApplication implements CommandLineRunner{
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private TelefoneRepository telefoneRepository;
-
-	/*
-colocar na application.property
-spring.jpa.hibernate.ddl-auto=create
-spring.datasource.url=jdbc:mysql://localhost:3306/sga
-spring.datasource.username=root
-spring.datasource.password=
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-	 */
 
 	public static void main(String[] args) {
 		SpringApplication.run(SgaApplication.class, args);
