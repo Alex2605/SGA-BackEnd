@@ -92,14 +92,14 @@
 	                    <thead>
 	                    <tr>
 	                        <th>#</th>
-	                        <th th:text="#{tabela.associado.col.nome}">Nome</th>
-	                        <th th:text="#{tabela.associado.col.CPF}">Salário</th>
-	                        <th th:text="#{tabela.associado.col.email}">Departamento</th>
-	                        <th th:text="#{tabela.associado.col.tipoDependente}">Dependente</th>
-	                        <th th:text="#{tabela.associado.col.associado}">Endereço</th>
-	                        <th th:text="#{tabela.associado.col.dataEntrada}">Data de Entrada</th>
-	                        <th th:text="#{tabela.associado.col.dataSaida}">Data de Saída</th>
-	                        <th th:text="#{tabela.associado.col.acao}">Ação</th>
+	                        <th th:text="#{tabela.dependente.col.nome}">Nome</th>
+	                        <th th:text="#{tabela.dependente.col.CPF}">Salário</th>
+	                        <th th:text="#{tabela.dependente.col.email}">Departamento</th>
+	                        <th th:text="#{tabela.dependente.col.tipoDependente}">Dependente</th>
+	                        <th th:text="#{tabela.dependente.col.associado}">Endereço</th>
+	                        <th th:text="#{tabela.dependente.col.dataEntrada}">Data de Entrada</th>
+	                        <th th:text="#{tabela.dependente.col.dataSaida}">Data de Saída</th>
+	                        <th th:text="#{tabela.dependente.col.acao}">Ação</th>
 	                    </tr>
 	                    </thead>
 	                    <tbody>
@@ -113,9 +113,9 @@
 		                            <button type="button" class="btn btn-secondary btn-sm" data-container="body"
 		                                    data-toggle="popover" data-placement="top"
 		                                    th:attr="data-content=${#strings.concat(
-			                                    f.associado.nome, ', ', 
-			                                    f.associado.email, ' ', 
-			                                    f.associado.tipo
+			                                    f.dependente.nome, ', ', 
+			                                    f.dependente.email, ' ', 
+			                                    f.dependente.tipo
 		                                    )}">
 		                                
 		                                <span class="oi oi-eye" title="Visualizar" aria-hidden="true"></span>
