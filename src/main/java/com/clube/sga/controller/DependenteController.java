@@ -17,6 +17,7 @@ import com.clube.sga.domain.Dependente;
 import com.clube.sga.domain.EstadoCivil;
 import com.clube.sga.domain.TipoDependente;
 import com.clube.sga.domain.UF;
+import com.clube.sga.service.AssociadoService;
 import com.clube.sga.service.DependenteService;
 
 @Controller
@@ -25,8 +26,8 @@ public class DependenteController {
 	
 	@Autowired
 	private DependenteService dependenteService;
-//	@Autowired
-//	private CargoService cargoService;
+	@Autowired
+	private AssociadoService associadoService;
 	
 	
 	@GetMapping("/cadastrar")
