@@ -1,95 +1,60 @@
 package com.clube.sga.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+//import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 
-import com.clube.sga.domain.enums.EstadoCivil;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Pessoa implements Serializable {
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+@MappedSuperclass
+public abstract class Pessoa<ID extends Serializable> implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private ID id;
+
+	@NotBlank
+	@Size(max = 255, min = 3)
+	@Column(nullable = false, unique = true)
 	private String nome;
+
+	@Size(min = 14, max = 14, message = "{Size.pessoa.cpf}")
+	@Column(nullable = true, length = 14, unique = true)
 	private String CPF;
-	@JsonFormat(pattern = "dd/mm/yyyy")
-	private Date dataNascimento;
-	private Integer estadoCivil;
-	@JsonFormat(pattern = "dd/mm/yyyy")
-	private Date dataInscricao;
-	@JsonFormat(pattern = "dd/mm/yyyy")
-	private Date dataEncerramento;
-
-	@OneToMany(mappedBy = "pessoa")
-	private List<Endereco> enderecos = new ArrayList<Endereco>();
-	@OneToMany(mappedBy = "pessoa")
-	private List<Telefone> telefones = new ArrayList<Telefone>();
 	
-	@ElementCollection
-	@CollectionTable(name = "EMAIL")
-	private Set<String> emails = new HashSet<>();
-	
-	public Pessoa() {
-	}
-
-	public Pessoa(Integer id, String nome, String CPF, Date dataNascimento, EstadoCivil estadoCivil, Date dataInscricao) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.CPF = CPF;
-		this.dataNascimento = dataNascimento;
-		this.estadoCivil = estadoCivil.getCod();
-		this.dataInscricao = dataInscricao;
-	}
-	
-	public Pessoa(String nome, String CPF, Date dataNascimento, EstadoCivil estadoCivil, Date dataInscricao) {
-		super();
-		this.nome = nome;
-		this.CPF = CPF;
-		this.dataNascimento = dataNascimento;
-		this.estadoCivil = estadoCivil.getCod();
-		this.dataInscricao = dataInscricao;
-	}	
-
-	public Pessoa(Integer id, String nome, String CPF, Date dataNascimento) {
-		this.id = id;
-		this.nome = nome;
-		this.CPF = CPF;
-		this.dataNascimento = dataNascimento;
-	}
-
+	@NotNull
+ 	@PastOrPresent(message = "{PastOrPresent.pessoa.dataNascimento}")
+	@DateTimeFormat(iso = ISO.DATE, pattern = "")
+	@Column(name= "data_nascimento", nullable = false, columnDefinition = "DATE")
+	private LocalDate dataNascimento;
 	
 
-	public Pessoa(String nome, String CPF, Date dataNascimento) {
-		this.nome = nome;
-		this.CPF = CPF;
-		this.dataNascimento = dataNascimento;
-	}
+//	@NotNull(message = "{NotNull.endereco.uf}")
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private EstadoCivil estadoCivil;	
+	
+	private String email;
 
-
-	public Integer getId() {
+	
+	public ID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(ID id) {
 		this.id = id;
 	}
 
@@ -109,60 +74,28 @@ public class Pessoa implements Serializable {
 		CPF = cPF;
 	}
 
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
 	public EstadoCivil getEstadoCivil() {
-		return EstadoCivil.toEnum(estadoCivil);
+		return estadoCivil;
 	}
 
 	public void setEstadoCivil(EstadoCivil estadoCivil) {
-		this.estadoCivil = estadoCivil.getCod();
+		this.estadoCivil = estadoCivil;
 	}
 
-	public Date getDataInscricao() {
-		return dataInscricao;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setDataInscricao(Date dataInscricao) {
-		this.dataInscricao = dataInscricao;
-	}
-
-	public Date getDataEncerramento() {
-		return dataEncerramento;
-	}
-
-	public void setDataEncerramento(Date dataEncerramento) {
-		this.dataEncerramento = dataEncerramento;
-	}
-
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
-	
-	public List<Telefone> getTelefones() {
-		return telefones;
-	}
-
-	public void setTelefones(List<Telefone> telefones) {
-		this.telefones = telefones;
-	}
-
-	public Set<String> getEmails() {
-		return emails;
-	}
-
-	public void setEmails(Set<String> emails) {
-		this.emails = emails;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -181,7 +114,7 @@ public class Pessoa implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pessoa other = (Pessoa) obj;
+		Pessoa<?> other = (Pessoa<?>) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -189,7 +122,9 @@ public class Pessoa implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Pessoa [id=" + id + ", nome=" + nome + ", CPF=" + CPF + "]";
+	}
 }
-	

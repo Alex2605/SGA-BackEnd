@@ -1,78 +1,124 @@
 package com.clube.sga.domain;
 
-
-
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
-import com.clube.sga.domain.enums.EstadoCivil;
-import com.clube.sga.domain.enums.TipoAssociado;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+
+@SuppressWarnings("serial")
 @Entity
-public class Associado extends Pessoa{
-	private static final long serialVersionUID = 1L;
+@Table(name = "ASSOCIADOS")
+public class Associado extends Pessoa<Long> {
+
+
+//	@NotNull(message = "{NotNull.endereco.uf}")
+//	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private TipoAssociado tipoAssociado;
+
 	
-	private Integer tipoAssociado;
+	@NotNull
+	@PastOrPresent(message = "{PastOrPresent.funcionario.dataEntrada}")
+	@DateTimeFormat(iso = ISO.DATE, pattern = "")
+	@Column(name= "data_inscricao", nullable = false, columnDefinition = "DATE")
+	private LocalDate dataInscricao;
+
+	@DateTimeFormat(iso = ISO.DATE)
+	@Column(name = "data_saida", columnDefinition = "DATE")
+	private LocalDate dataSaida;
 	
+	@Valid
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "endereco_id_fk")
+	private Endereco endereco;
+
 	@OneToMany(mappedBy = "associado")
 	private List<Dependente> dependentes = new ArrayList<Dependente>();
 	@OneToMany(mappedBy = "associado")
 	private List<Visitante> visitantes = new ArrayList<Visitante>();
-	
-	public Associado() {
-	}
-	public Associado(String nome, String CPF, Date dataNascimento) {
-	    super(nome, CPF, dataNascimento);
-}
-		public Associado(Integer id, String nome, String CPF, Date dataNascimento, EstadoCivil estadoCivil, 
-					 Date dataInscricao, TipoAssociado tipoAssociado) {
-		super(id, nome, CPF, dataNascimento, estadoCivil, dataInscricao);
-		this.tipoAssociado = tipoAssociado.getCod();
-	}
-		public Associado(Integer id, String nome, String CPF, Date dataNascimento) {
-	    super(id, nome, CPF, dataNascimento);
-}
 
-	public Associado(String nome, String CPF, Date dataNascimento, EstadoCivil estadoCivil, 
-			 Date dataInscricao, TipoAssociado tipoAssociado) {
-		super(nome, CPF, dataNascimento, estadoCivil, dataInscricao);
-		this.tipoAssociado = tipoAssociado.getCod();
-		}
+	public Associado() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public TipoAssociado getTipoAssociado() {
-		return TipoAssociado.toEnum(tipoAssociado);
+		return tipoAssociado;
 	}
 
 	public void setTipoAssociado(TipoAssociado tipoAssociado) {
-		this.tipoAssociado = tipoAssociado.getCod();
+		this.tipoAssociado = tipoAssociado;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public LocalDate getDataInscricao() {
+		return dataInscricao;
 	}
+
+	public void setDataInscricao(LocalDate dataInscricao) {
+		this.dataInscricao = dataInscricao;
+	}
+
+	public LocalDate getDataSaida() {
+		return dataSaida;
+	}
+
+	public void setDataSaida(LocalDate dataSaida) {
+		this.dataSaida = dataSaida;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
 
 	public List<Dependente> getDependentes() {
 		return dependentes;
 	}
 
+
 	public void setDependentes(List<Dependente> dependentes) {
 		this.dependentes = dependentes;
 	}
+
 
 	public List<Visitante> getVisitantes() {
 		return visitantes;
 	}
 
+
 	public void setVisitantes(List<Visitante> visitantes) {
 		this.visitantes = visitantes;
 	}
-	
-	
-	
-	
 
+
+	
+/*
+	@NotNull(message = "{NotNull.funcionario.cargo}")
+	@ManyToOne
+	@JoinColumn(name = "cargo_id_fk")
+	private Cargo cargo;
+*/
+
+	
 }
